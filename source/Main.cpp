@@ -44,7 +44,7 @@ public:
 		SetTargetFPS(60);
 		screenW = w;
 		screenH = h;
-		backgroundTexture = LoadTexture("background.png"); // Upewnij się, że plik istnieje w katalogu projektu
+		backgroundTexture = LoadTexture("background.png"); 
 	}
 
 	void Begin() {
@@ -264,11 +264,11 @@ public:
 	}
 
 	void Draw() const override {
-		// Wylicz kąt do gracza
+		// kąt do gracza
 		Vector2 playerPos = getPlayerPosition();
 		float angleToPlayer = atan2f(playerPos.y - transform.position.y, playerPos.x - transform.position.x);
 
-		// Dodaj manualny offset (w radianach)
+		
 		float finalAngle = angleToPlayer + manualOffsetRad;
 
 		float scale = GetRadius() * 2.0f / texture.width;
@@ -302,7 +302,7 @@ static inline std::unique_ptr<Asteroid> MakeAsteroid(int w, int h, AsteroidShape
 	case AsteroidShape::PENTAGON:
 		return std::make_unique<PentagonAsteroid>(w, h);
 	case AsteroidShape::RANDOM: {
-		// 80% szansa na zwykłą asteroidę, 20% na chasing
+		
 		int r = GetRandomValue(0, 9);
 		if (r < 1) // 0,1 -> chasing (20%)
 			return std::make_unique<ChasingAsteroid>(w, h, getPlayerPos, 45.0f);
@@ -486,7 +486,7 @@ public:
 		GenTextureMipmaps(&texture);                                                        // Generate GPU mipmaps for a texture
 		SetTextureFilter(texture, 2);
 		scale = 0.25f;
-		bulletTexture = LoadTexture("bullet.png"); // Upewnij się, że plik istnieje
+		bulletTexture = LoadTexture("bullet.png");
 	}
 	~PlayerShip() {
 		UnloadTexture(texture);
@@ -756,7 +756,7 @@ public:
 				for (auto ait = asteroids.begin(); ait != asteroids.end(); ++ait) {
 					float dist = Vector2Distance((*pit).GetPosition(), (*ait)->GetPosition());
 					if (dist < (*pit).GetRadius() + (*ait)->GetRadius()) {
-						score += 10 * (*ait)->GetSize(); // np. 10 punktów za SMALL, 20 za MEDIUM, 40 za LARGE
+						score += 10 * (*ait)->GetSize(); // 10 punktów za SMALL, 20 za MEDIUM, 40 za LARGE
 						ait = asteroids.erase(ait);
 						pit = projectiles.erase(pit);
 						removed = true;
